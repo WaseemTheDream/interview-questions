@@ -277,7 +277,7 @@ def calculate_volume_waseem(heights):
     return fill(list(heights))
 
 ################################################################################
-
+calculate_volume = calculate_volume_waseem
 class TestSolution(unittest.TestCase):
 
     def apply(self):
@@ -311,6 +311,7 @@ class TestSolution(unittest.TestCase):
             ((5,1,5), 4),
             ((5,1,3), 2)
         ]
+        self.apply()
 
     def test_many(self):
         self.cases = [
@@ -326,6 +327,7 @@ class TestSolution(unittest.TestCase):
             ((1,2,3,4,3,2,0), 0),
             ((2,1,2,2,2), 1)
         ]
+        self.apply()
 
 
 class Profiler(object):
