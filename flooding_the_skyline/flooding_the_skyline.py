@@ -277,6 +277,35 @@ def calculate_volume_waseem(heights):
     return fill(list(heights))
 
 ################################################################################
+
+def calculate_volume_michael(heights):
+    if len(heights) < 3:
+        return 0
+    tallest_index = heights.index(max(heights))
+    return calculate_left_volume(heights, tallest_index) + calculate_right_volume(heights, tallest_index)
+
+def get_tallest_index(heights, minimum, maximum):
+    subheights = heights[minimum: maximum + 1]
+    return subheights.index(max(subheights)) + minimum
+
+def calculate_left_volume(heights, tallest_index):
+    if tallest_index == 0:
+        return 0
+    water_left = 0
+    next_tallest_index = get_tallest_index(heights, 0, tallest_index - 1)
+    for i in range(next_tallest_index + 1, tallest_index):
+        water_left += heights[next_tallest_index] - heights[i]
+    return water_left + calculate_left_volume(heights, next_tallest_index)
+
+def calculate_right_volume(heights, tallest_index):
+    if tallest_index == len(heights) - 1:
+        return 0
+    water_right = 0
+    next_tallest_index = get_tallest_index(heights, tallest_index + 1, len(heights) - 1)
+    for i in range(tallest_index + 1, next_tallest_index):
+        water_right += heights[next_tallest_index] - heights[i]
+    return water_right + calculate_right_volume(heights, next_tallest_index)
+
 calculate_volume = calculate_volume_waseem
 class TestSolution(unittest.TestCase):
 
@@ -450,7 +479,8 @@ if __name__ == '__main__':
         'Dennis': calculate_volume_dennis,
         'Matt': calculate_volume_matt,
         'Vijay': calculate_volume_vijay,
-        'Nate': calculate_volume_nate
+        'Nate': calculate_volume_nate,
+        'Michael': calculate_volume_michael
     }
     for name, algorithm in solution_list.items():
         print 'Using', name+"'s", 'solution...'
